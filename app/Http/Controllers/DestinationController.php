@@ -6,8 +6,8 @@ use App\Http\Requests\Destination\StoreDestinationRequest;
 use App\Http\Requests\Destination\UpdateDestinationRequest;
 use App\Models\Destination;
 use App\Services\Destination\DestinationService;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
 
 class DestinationController extends Controller
 {
@@ -17,29 +17,68 @@ class DestinationController extends Controller
 
     public function index(): View
     {
-        $destinations = $this->destinationService->paginate();
-
         return view('destinations.index', [
-            'destinations' => $destinations,
+            'destinations' => $this->destinationService->paginate(),
         ]);
     }
 
-    public function create(): View {}
+    public function create(): View
+    {
+        return view('destinations.create');
+    }
 
     public function store(
         StoreDestinationRequest $request,
-    ): RedirectResponse {}
+    ): RedirectResponse {
+        $this->destinationService->create(
+            $request->validated()
+        );
+
+        return redirect()
+            ->route('destinations.index')
+            ->with(
+                'success',
+                'Destination berhasil ditambahkan.'
+            );
+    }
 
     public function edit(
         Destination $destination,
-    ): View {}
+    ): View {
+        return view('destinations.edit', [
+            'destination' => $destination,
+        ]);
+    }
 
     public function update(
         UpdateDestinationRequest $request,
         Destination $destination,
-    ): RedirectResponse {}
+    ): RedirectResponse {
+        $this->destinationService->update(
+            $destination,
+            $request->validated(),
+        );
+
+        return redirect()
+            ->route('destinations.index')
+            ->with(
+                'success',
+                'Destination berhasil diperbarui.'
+            );
+    }
 
     public function destroy(
         Destination $destination,
-    ): RedirectResponse {}
+    ): RedirectResponse {
+        $this->destinationService->delete(
+            $destination,
+        );
+
+        return redirect()
+            ->route('destinations.index')
+            ->with(
+                'success',
+                'Destination berhasil dihapus.'
+            );
+    }
 }
