@@ -2,28 +2,41 @@
 
 namespace App\Http\Requests\Destination;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreDestinationRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine whether the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Validation rules.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+                'max:100',
+                'unique:destinations,name',
+            ],
+
+            'destination_status' => [
+                'required',
+                Rule::in([
+                    'Active',
+                    'Inactive',
+                ]),
+            ],
         ];
     }
 }

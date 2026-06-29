@@ -2,28 +2,48 @@
 
 namespace App\Http\Requests\Destination;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateDestinationRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine whether the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Validation rules.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
+        $destination = $this->route('destination');
+
+        $destinationId = is_object($destination)
+            ? $destination->id
+            : $destination;
+
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('destinations', 'name')
+                    ->ignore($destinationId),
+            ],
+
+            'destination_status' => [
+                'required',
+                Rule::in([
+                    'Active',
+                    'Inactive',
+                ]),
+            ],
         ];
     }
 }
