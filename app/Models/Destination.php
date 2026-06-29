@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\DestinationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Destination Model
@@ -37,5 +38,27 @@ class Destination extends Model
         return [
             'destination_status' => DestinationStatus::class,
         ];
+    }
+
+    /**
+     * Get all routes where this destination is used as the origin.
+     */
+    public function originRoutes(): HasMany
+    {
+        return $this->hasMany(
+            Route::class,
+            'origin_destination_id'
+        );
+    }
+
+    /**
+     * Get all routes where this destination is used as the destination.
+     */
+    public function destinationRoutes(): HasMany
+    {
+        return $this->hasMany(
+            Route::class,
+            'destination_destination_id'
+        );
     }
 }

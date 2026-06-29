@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Enums\RouteStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 /**
  * Route Model
@@ -47,5 +50,37 @@ class Route extends Model
             'base_price' => 'decimal:2',
             'route_status' => RouteStatus::class,
         ];
+    }
+
+    /**
+     * Origin destination.
+     */
+    public function originDestination(): BelongsTo
+    {
+        return $this->belongsTo(
+            Destination::class,
+            'origin_destination_id'
+        );
+    }
+
+    /**
+     * Destination.
+     */
+    public function destinationDestination(): BelongsTo
+    {
+        return $this->belongsTo(
+            Destination::class,
+            'destination_destination_id'
+        );
+    }
+
+    /**
+     * Bookings using this route.
+     */
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(
+            Booking::class
+        );
     }
 }
