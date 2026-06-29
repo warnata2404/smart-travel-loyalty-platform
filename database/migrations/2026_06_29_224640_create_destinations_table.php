@@ -25,8 +25,6 @@ return new class extends Migration
 
             $table->unique('name');
 
-            $table->index('name');
-
             $table->index('destination_status');
         });
     }

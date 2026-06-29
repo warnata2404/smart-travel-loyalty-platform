@@ -27,8 +27,6 @@ return new class extends Migration
 
             $table->unique('milestone_km');
 
-            $table->index('milestone_km');
-
             $table->index('loyalty_rule_status');
         });
     }

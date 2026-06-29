@@ -99,7 +99,6 @@ return new class extends Migration
             | Index
             |--------------------------------------------------------------------------
             */
-            $table->index('booking_code');
 
             $table->index('user_id');
 
