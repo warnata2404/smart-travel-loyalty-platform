@@ -15,7 +15,14 @@ class DestinationController extends Controller
         private readonly DestinationService $destinationService,
     ) {}
 
-    public function index(): View {}
+    public function index(): View
+    {
+        $destinations = $this->destinationService->paginate();
+
+        return view('destinations.index', [
+            'destinations' => $destinations,
+        ]);
+    }
 
     public function create(): View {}
 
