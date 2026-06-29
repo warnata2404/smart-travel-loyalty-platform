@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name
- * @property string|null $description
  * @property DestinationStatus $destination_status
  */
 class Destination extends Model
@@ -25,12 +24,11 @@ class Destination extends Model
      */
     protected $fillable = [
         'name',
-        'description',
         'destination_status',
     ];
 
     /**
-     * Attribute casting.
+     * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */

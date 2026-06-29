@@ -10,12 +10,11 @@ use Illuminate\Database\Eloquent\Model;
  * Route Model
  *
  * @property int $id
- * @property int $destination_id
- * @property string $origin_name
- * @property string $destination_name
- * @property float $distance_km
+ * @property int $origin_destination_id
+ * @property int $destination_destination_id
+ * @property string $distance_km
  * @property int $estimated_duration_minutes
- * @property float $base_price
+ * @property string $base_price
  * @property RouteStatus $route_status
  */
 class Route extends Model
@@ -28,9 +27,8 @@ class Route extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'destination_id',
-        'origin_name',
-        'destination_name',
+        'origin_destination_id',
+        'destination_destination_id',
         'distance_km',
         'estimated_duration_minutes',
         'base_price',
@@ -38,7 +36,7 @@ class Route extends Model
     ];
 
     /**
-     * Attribute casting.
+     * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
