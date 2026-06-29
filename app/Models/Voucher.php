@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\VoucherStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Voucher Model
@@ -54,5 +55,32 @@ class Voucher extends Model
 
             'used_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Voucher owner.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Loyalty rule that generated this voucher.
+     */
+    public function loyaltyRule(): BelongsTo
+    {
+        return $this->belongsTo(LoyaltyRule::class);
+    }
+
+    /**
+     * Booking where this voucher was redeemed.
+     */
+    public function usedBooking(): BelongsTo
+    {
+        return $this->belongsTo(
+            Booking::class,
+            'used_booking_id'
+        );
     }
 }

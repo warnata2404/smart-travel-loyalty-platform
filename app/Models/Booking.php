@@ -6,6 +6,8 @@ use App\Enums\BookingStatus;
 use App\Enums\TravelCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Booking Model
@@ -75,5 +77,32 @@ class Booking extends Model
 
             'booking_status' => BookingStatus::class,
         ];
+    }
+
+    /**
+     * User who owns this booking.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Selected travel route.
+     */
+    public function route(): BelongsTo
+    {
+        return $this->belongsTo(Route::class);
+    }
+
+    /**
+     * Voucher generated from this booking.
+     */
+    public function voucher(): HasOne
+    {
+        return $this->hasOne(
+            Voucher::class,
+            'used_booking_id'
+        );
     }
 }
