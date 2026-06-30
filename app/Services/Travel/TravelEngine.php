@@ -2,12 +2,15 @@
 
 namespace App\Services\Travel;
 
+use App\DTO\BookingSnapshotData;
+use App\Models\Route;
 use App\Services\Booking\BookingService;
 use App\Services\Booking\Support\BookingCodeService;
 use App\Services\Booking\Support\BookingSnapshotService;
-use App\Services\Voucher\VoucherService;
-use App\Services\Voucher\Support\VoucherCodeService;
 use App\Services\Loyalty\LoyaltyRuleService;
+use App\Services\Voucher\Support\VoucherCodeService;
+use App\Services\Voucher\VoucherService;
+use Carbon\Carbon;
 
 class TravelEngine
 {
@@ -19,4 +22,17 @@ class TravelEngine
         private readonly VoucherCodeService $voucherCodeService,
         private readonly LoyaltyRuleService $loyaltyRuleService,
     ) {}
+
+    /**
+     * Build booking snapshot.
+     */
+    public function buildSnapshot(
+        Route $route,
+        Carbon $departure
+    ): BookingSnapshotData {
+        return $this->bookingSnapshotService->build(
+            $route,
+            $departure
+        );
+    }
 }
