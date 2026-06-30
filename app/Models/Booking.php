@@ -10,9 +10,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * Booking Model
+ * Booking Model.
  *
  * Represents a travel booking transaction.
+ *
+ * @property int $id
+ * @property string $booking_code
+ * @property int $user_id
+ * @property int $route_id
+ * @property TravelCategory $travel_category
+ * @property string $origin_name
+ * @property string $destination_name
+ * @property \Illuminate\Support\Carbon $departure_datetime
+ * @property string $estimated_distance_km
+ * @property int $estimated_duration_minutes
+ * @property \Illuminate\Support\Carbon $estimated_arrival_datetime
+ * @property string $base_price
+ * @property string $discount_percentage
+ * @property string $discount_amount
+ * @property string $final_price
+ * @property string|null $payment_proof_path
+ * @property \Illuminate\Support\Carbon|null $payment_uploaded_at
+ * @property BookingStatus $booking_status
  */
 class Booking extends Model
 {
@@ -52,7 +71,7 @@ class Booking extends Model
     /**
      * Get the attributes that should be cast.
      *
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     protected function casts(): array
     {
@@ -80,7 +99,7 @@ class Booking extends Model
     }
 
     /**
-     * User who owns this booking.
+     * Get the user that owns the booking.
      */
     public function user(): BelongsTo
     {
@@ -88,7 +107,7 @@ class Booking extends Model
     }
 
     /**
-     * Selected travel route.
+     * Get the selected travel route.
      */
     public function route(): BelongsTo
     {
@@ -96,7 +115,7 @@ class Booking extends Model
     }
 
     /**
-     * Voucher generated from this booking.
+     * Get the voucher generated from this booking.
      */
     public function voucher(): HasOne
     {
