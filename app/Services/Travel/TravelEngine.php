@@ -24,6 +24,14 @@ class TravelEngine
     ) {}
 
     /**
+     * Generate booking code.
+     */
+    public function generateBookingCode(): string
+    {
+        return $this->bookingCodeService->generate();
+    }
+
+    /**
      * Build booking snapshot.
      */
     public function buildSnapshot(
