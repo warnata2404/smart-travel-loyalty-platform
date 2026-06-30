@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\LoyaltyRuleController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\VoucherController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,6 +46,11 @@ Route::middleware('auth')->group(function () {
         'bookings',
         BookingController::class
     )->except('show');
+
+    Route::resource('vouchers', VoucherController::class)
+        ->except('show');
+
+
 
     /*
     |--------------------------------------------------------------------------
