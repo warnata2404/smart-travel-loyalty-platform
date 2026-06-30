@@ -11,6 +11,8 @@ use App\Services\Loyalty\LoyaltyRuleService;
 use App\Services\Voucher\Support\VoucherCodeService;
 use App\Services\Voucher\VoucherService;
 use Carbon\Carbon;
+use App\Models\Booking;
+use Illuminate\Support\Facades\DB;
 
 class TravelEngine
 {
@@ -42,5 +44,33 @@ class TravelEngine
             $route,
             $departure
         );
+    }
+
+    /**
+     * Create booking transaction.
+     */
+    public function createBooking(
+        array $attributes,
+        Route $route,
+        Carbon $departure
+    ): Booking {
+        return DB::transaction(function () use (
+            $attributes,
+            $route,
+            $departure
+        ) {
+            $snapshot = $this->buildSnapshot(
+                $route,
+                $departure
+            );
+
+            return $this->bookingService->createFromSnapshot(
+                [
+                    ...$attributes,
+                    'booking_code' => $this->generateBookingCode(),
+                ],
+                $snapshot
+            );
+        });
     }
 }
