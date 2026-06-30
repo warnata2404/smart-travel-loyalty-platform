@@ -25,13 +25,20 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('destinations', DestinationController::class)
-        ->except(['show']);
+    Route::resource(
+        'destinations',
+        DestinationController::class
+    )->except('show');
 
-    Route::resource('routes', RouteController::class)
-        ->except(['show']);
+    Route::resource(
+        'routes',
+        RouteController::class
+    )->except('show');
 
-    Route::resource('loyalty-rules', LoyaltyRuleController::class);
+    Route::resource(
+        'loyalty-rules',
+        LoyaltyRuleController::class
+    )->except('show');
 
     /*
     |--------------------------------------------------------------------------
