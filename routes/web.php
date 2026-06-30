@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\LoyaltyRuleController;
+use App\Http\Controllers\BookingController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,6 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::resource(
         'loyalty-rules',
         LoyaltyRuleController::class
+    )->except('show');
+
+    Route::resource(
+        'bookings',
+        BookingController::class
     )->except('show');
 
     /*
