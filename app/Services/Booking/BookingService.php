@@ -4,6 +4,7 @@ namespace App\Services\Booking;
 
 use App\Models\Booking;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\DTO\BookingSnapshotData;
 
 class BookingService
 {
@@ -30,6 +31,27 @@ class BookingService
     public function create(array $data): Booking
     {
         return Booking::create($data);
+    }
+
+    /**
+     * Create booking from prepared snapshot.
+     */
+    public function createFromSnapshot(
+        array $attributes,
+        BookingSnapshotData $snapshot
+    ): Booking {
+        return Booking::create([
+            ...$attributes,
+
+            'origin_name' => $snapshot->originName,
+            'destination_name' => $snapshot->destinationName,
+
+            'estimated_distance_km' => $snapshot->distanceKm,
+            'estimated_duration_minutes' => $snapshot->durationMinutes,
+            'estimated_arrival_datetime' => $snapshot->arrivalDatetime,
+
+            'base_price' => $snapshot->basePrice,
+        ]);
     }
 
     /**
